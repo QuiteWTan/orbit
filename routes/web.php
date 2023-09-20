@@ -45,3 +45,7 @@ Route::get('answers/1', function () {
 Route::get('users/wete', function () {
     return view('pages.users.show');
 })->name('profile');
+
+Route::get('users/wete/edit', function () {
+    return view('pages.users.form');
+})->name('users.edit');
