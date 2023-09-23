@@ -13,10 +13,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
+        $username = 'fajarwz';
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::create([
+            'username' => 'fajarwz',
+            'email' => 'fajarwz@test.com',
+            'password' => 'test123', // password
+            'picture' => config('app.avatar_generator_url').$username,
+        ]);
+
+        $this->call([
+            CategorySeeder::class,
+        ]);
     }
 }

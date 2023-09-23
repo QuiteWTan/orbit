@@ -8,7 +8,10 @@
         padding-bottom: 100px;
     }
 }
-
+.image-bg{
+    background-image: url('/public/assets/images/homeBG.jpg');
+    object-fit: cover;
+}
 .hero-image {
     max-height: 100%;
     max-width: 100%;
