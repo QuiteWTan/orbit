@@ -91,23 +91,21 @@ class AnswerController extends Controller
     public function destroy(string $id)
     {
         $answer = Answer::find($id);
-        if(!$discussion){
+        if(!$answer){
             return abort(404);
         }
         
-        $checkOwned = $discussion->user_id == auth()->id();
+        $checkOwned = $answer->user_id == auth()->id();
 
         if(!$checkOwned){
             return abort(404);
         }
 
-        $delete = $discussion->delete();
-
-        if ($delete) {
-            session()->flash('notif.success', 'Deletion updated successfully!');
-            return redirect()->route('discussions.index', $slug);
+        $delete = $answer->delete();
+        if($delete){
+            session()->flash('notif.success', "Your Answer has been updated");
+            return redirect()->route('discussions.show', $answer->discussion->slug);
         }
-
         return abort(500);
         //
     }

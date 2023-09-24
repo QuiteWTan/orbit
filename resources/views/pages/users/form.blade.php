@@ -5,35 +5,52 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-lg-5">
-                    <form action="">
+                    <form action="{{route('users.update', $user->username)}}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT ')
                         <div class="d-flex flex-column flex-md-row mb-4">
                             <div class="edit-avatar-wrapper mb-3 mb-md-0 mx-auto mx-md-0">
                                 <div class="avatar-wrapper rounded-circle overflow-hidden flex-shrink-0 me-4 shadow p-2">
-                                    <img src="{{ url('assets/images/user.png')}}" alt="" class="avatar" id="avatar">
+                                    <img src="{{ $picture}}" alt="" class="avatar" id="avatar">
                                 </div>
-                                <label for="upload-picture" class="btn p-0 edit-avatar-show bg-primary rounded-circle shadow p-2 d-flex align-items-center">
+                                <label for="picture" class="btn p-0 edit-avatar-show bg-primary rounded-circle shadow p-2 d-flex align-items-center">
                                     <i class='bx bx-edit bx-sm' color='white' style="color: aliceblue"></i>
                                 </label>
-                                <input type="file" class="d-none" id="upload-picture" name="upload-picture" accept="image/*">
+                                <input type="file" class="d-none" id="picture" name="picture" accept="image/*">
                             </div>
                             <div>
+                                @error('picture')
+                                    <div class="invalid-feedback d-block">{{$message}}</div>
+                                @enderror
                                 <div class="mb-3">
                                     <label for="username" class="form-label">Username</label>
-                                    <input type="text" class="form-control" id="username" name="username" autofocus>
+                                    <input type="text" class="form-control @error('username') is-invalid @enderror" id="username" name="username" value={{ old('username', $user->username) }} autofocus>
+                                    @error('username')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
-                                    <input type="text" class="form-control" id="password" name="password">
+                                    <input type="text" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
+                                    <div class="fs-12px color-gray">
+                                        Can be empty
+                                    </div>
+                                    @error('password')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label for="confirm-password" class="form-label">Confirm Password</label>
-                                    <input type="text" class="form-control" id="password" name="password">
+                                    <input type="text" class="form-control @error('confirmpassword') is-invalid @enderror" id="password" name="confirmpassword">
+                                    @error('confirmpassword')
+                                        <div class="invalid-feedback">{{$message}}</div>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
                         <div>
                             <button class="btn btn-primary me-4" type="submit">Save</button>
-                            <a href="">Cancel</a>
+                            <a href="{{route('users.show', $user->username)}}">Cancel</a>
                         </div>
                     </form>
                 </div>
@@ -44,7 +61,7 @@
 
 @section('after-script')
     <script>
-        $('#upload-picture').on('change', function(event) {
+        $('#picture').on('change', function(event) {
             var output = $('#avatar');
             output.attr('src', URL.createObjectURL(event.target.files[0]));
             output.onload = function() {

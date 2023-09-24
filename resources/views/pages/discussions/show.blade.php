@@ -94,6 +94,13 @@
                                                     Edit
                                                 </a>
                                             </span>
+                                            <form action="{{route('answers.destroy', $Answer->id)}}"class="d-inline-block lh-1" method="POST">
+                                                @csrf
+                                                @method("DELETE")
+                                                <button class="color-gray me-2 btn p-0 delete-answer" id="delete-answer">
+                                                    <span class="card-discussion-delete-btn">Delete </span>                             
+                                                </button>
+                                            </form>
                                         @endif
                                     </div>
                                 </div>
@@ -174,6 +181,11 @@
 
         $('#delete-discussion').click(function(){
             if(!confirm('Do you want to delete this discussion?')){
+                event.preventDefault();
+            }
+        })
+        $('.delete-answer').click(function(){
+            if(!confirm('Do you want to delete this answer?')){
                 event.preventDefault();
             }
         })

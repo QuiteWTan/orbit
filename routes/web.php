@@ -20,16 +20,18 @@ Route::middleware('auth')->group(function(){
         Route::post('discussions/{discussion}/answer', 'AnswerController@store')->name('discussions.answer.store');
         Route::resource('answers', AnswerController::class)->only(['edit','update','destroy']);
     });
+    Route::namespace('App\Http\Controllers\My')->group(function(){
+        Route::resource('users', UserController::class)->only(['edit','update']);
+        
+    });
 });
 
 Route::namespace('App\Http\Controllers')->group(function(){
+    Route::get('/', 'HomeController@index')->name('Home');
     Route::resource('discussions', DiscussionController::class)->only(['index','show']);
     Route::get('discussions/categories/{category}', 'CategoryController@show')->name('discussions.categories.show');
 });
 
-Route::get('/', function () {
-    return view('Home');
-})->name('Home');
 
 Route::namespace('App\Http\Controllers\Auth')->group(function() {
     Route::get('login', 'LoginController@show')->name('auth.login.show');
@@ -39,10 +41,7 @@ Route::namespace('App\Http\Controllers\Auth')->group(function() {
     Route::post('signup', 'SignUpController@signup')->name('auth.signup.signup');
 });
 
-Route::get('users/wete', function () {
-    return view('pages.users.show');
-})->name('users.show');
-
-Route::get('users/wete/edit', function () {
-    return view('pages.users.form');
-})->name('users.edit');
+Route::namespace('App\Http\Controllers\My')->group(function(){
+    Route::resource('users', UserController::class)->only(['show']);
+    
+});
